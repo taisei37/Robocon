@@ -1,9 +1,11 @@
 import cv2
-import apriltag
+from pyapriltags import Detector
 
 # カメラ起動
 cap = cv2.VideoCapture(0)
-detector = apriltag.Detector()
+
+# Apriltag ディテクタ作成
+detector = Detector(families='tag36h11')  # familes でタグタイプ指定可能
 
 while True:
     ret, frame = cap.read()
@@ -17,15 +19,10 @@ while True:
     if tags:
         print(f"=== Detected {len(tags)} AprilTags ===")
         for tag in tags:
-            print(f"[Tag ID: {tag.tag_id}]")
-            print(f"  Center : ({tag.center[0]:.2f}, {tag.center[1]:.2f})")
-            print("  Corners:")
-            for corner in tag.corners:
-                print(f"    ({corner[0]:.2f}, {corner[1]:.2f})")
-            print()
-    else:
-        print("No tags detected")
+            print(f"[Tag ID: {tag.tag_id}] Center: {tag.center}")
+            print(f"Corners: {tag.corners}")
 
+    # 検出結果を描画
     for tag in tags:
         corners = tag.corners
         for i in range(4):
@@ -33,10 +30,10 @@ while True:
             pt2 = tuple(map(int, corners[(i + 1) % 4]))
             cv2.line(frame, pt1, pt2, (0, 255, 0), 2)
         center = tuple(map(int, tag.center))
-        cv2.putText(frame, str(tag.tag_id), center, cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+        cv2.putText(frame, str(tag.tag_id), center,
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
     cv2.imshow('AprilTag Detection', frame)
-
     if cv2.waitKey(1) & 0xFF == 27:  # Escキーで終了
         break
 
