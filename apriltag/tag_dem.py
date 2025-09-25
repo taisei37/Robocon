@@ -7,6 +7,9 @@ cap = cv2.VideoCapture(0)
 # Apriltag ディテクタ作成
 detector = Detector(families='tag36h11')  # familes でタグタイプ指定可能
 
+# ウィンドウをリサイズ可能にする
+cv2.namedWindow('AprilTag Detection', cv2.WINDOW_NORMAL)
+
 while True:
     ret, frame = cap.read()
     if not ret:
