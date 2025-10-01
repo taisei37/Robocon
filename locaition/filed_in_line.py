@@ -37,10 +37,10 @@ elements = {
         "vertices": central_block_vertices
     },
     "goal_boxes": [
-        {"type": "rect", "x": 265.0 - goal_box_w, "y": 200.0,  "w": goal_box_w, "h": goal_box_h, "color": "red"},
-        {"type": "rect", "x": 265.0 - goal_box_w, "y": 800.0,  "w": goal_box_w, "h": goal_box_h, "color": "blue"},
-        {"type": "rect", "x": 265.0 - goal_box_w, "y": 1400.0, "w": goal_box_w, "h": goal_box_h, "color": "yellow"},
-        {"type": "rect", "x": 265.0, "y": 1800, "w": 500.0, "h": 500.0, "color": "none"}  # 左下の黒枠箱
+        {"type": "rect", "x": 265.0 - goal_box_w, "y": 100.0,  "w": goal_box_w, "h": goal_box_h, "color": "blue"},
+        {"type": "rect", "x": 265.0 - goal_box_w, "y": 750.0,  "w": goal_box_w, "h": goal_box_h, "color": "yellow"},
+        {"type": "rect", "x": 265.0 - goal_box_w, "y": 1400.0, "w": goal_box_w, "h": goal_box_h, "color": "red"},
+        {"type": "rect", "x": 265.0, "y": 1800, "w": 500.0, "h": 500.0, "color": "none"}  # スタート地点
     ]
 }
 
@@ -50,10 +50,10 @@ with open("field_map.json", "w", encoding="utf-8") as f:
 print("Saved field_map.json")
 
 # ---------- 可視化 ----------
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(12, 12))
 
 # 外枠フィールドを描画
-polygon = Polygon(field_vertices, closed=True, fill=False, edgecolor="black", linewidth=3)
+polygon = Polygon(field_vertices, closed=True, fill=False, edgecolor="black", linewidth=2)
 ax.add_patch(polygon)
 
 # 中央ブロック
@@ -72,6 +72,35 @@ for g in elements["goal_boxes"]:
         edgecolor='black', linewidth=2
     ))
 
+#----ガイドライン-----------------------------------------------------------------
+from matplotlib.patches import Arc
+import matplotlib.lines as mlines
+# 左縦ライン（[X長さ],[Y長さ]）
+ax.add_line(mlines.Line2D([565, 565], [400, 1550], color="black", linewidth=4))
+# 右縦ライン
+ax.add_line(mlines.Line2D([1605, 1605], [400, 1800], color="black", linewidth=4))
+#上横ライン
+ax.add_line(mlines.Line2D([715, 1455], [250, 250], color="black", linewidth=4))
+# 左上のR150カーブ
+arc1 = Arc((715, 400), 300, 300, theta1=180, theta2=270,
+           color="black", linewidth=4)
+ax.add_patch(arc1)
+# 右上のR150カーブ
+arc2 = Arc((1455, 400), 300, 300, theta1=270, theta2=360,
+           color="black", linewidth=4)
+ax.add_patch(arc2)
+# 横ライン（[X長さ,Y長さ]）
+ax.add_line(mlines.Line2D([1455, 1755],[500,500],  color="black", linewidth=4))
+ax.add_line(mlines.Line2D([415, 715], [900, 900], color="black", linewidth=4))
+ax.add_line(mlines.Line2D([415, 715], [1560, 1560], color="black", linewidth=4))
+ax.add_line(mlines.Line2D([1455, 1755], [1750, 1750], color="black", linewidth=4))
+# 縦ライン
+ax.add_line(mlines.Line2D([315, 315], [100, 400], color="black", linewidth=4))
+ax.add_line(mlines.Line2D([315, 315], [750, 1050], color="black", linewidth=4))
+ax.add_line(mlines.Line2D([315, 315], [1400, 1700], color="black", linewidth=4))
+ax.add_line(mlines.Line2D([865, 865], [100, 400], color="black", linewidth=4))  
+
+
 # 軸範囲
 ax.set_xlim(-100, FIELD_W + 100)
 ax.set_ylim(-100, FIELD_H + 100)
@@ -87,8 +116,8 @@ ax.xaxis.set_label_position('top')
 ax.xaxis.tick_top()
 
 # 目盛り
-ax.set_xticks([0, 265, 600, 900, 1200, 1500, 1800, 2065])
-ax.set_yticks([0, 500, 1000, 1500, 1800, 2300])
+ax.set_xticks([0, 265, 565, 865, 1145, 1605, 2065])
+ax.set_yticks([0, 250, 900, 1550, 1800, 2300])
 
 # 必要なら上下反転
 plt.gca().invert_yaxis()

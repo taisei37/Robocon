@@ -37,8 +37,8 @@ elements = {
         "vertices": central_block_vertices
     },
     "goal_boxes": [
-        {"type": "rect", "x": 265.0 - goal_box_w, "y": 200.0,  "w": goal_box_w, "h": goal_box_h, "color": "blue"},
-        {"type": "rect", "x": 265.0 - goal_box_w, "y": 800.0,  "w": goal_box_w, "h": goal_box_h, "color": "yellow"},
+        {"type": "rect", "x": 265.0 - goal_box_w, "y": 100.0,  "w": goal_box_w, "h": goal_box_h, "color": "blue"},
+        {"type": "rect", "x": 265.0 - goal_box_w, "y": 750.0,  "w": goal_box_w, "h": goal_box_h, "color": "yellow"},
         {"type": "rect", "x": 265.0 - goal_box_w, "y": 1400.0, "w": goal_box_w, "h": goal_box_h, "color": "red"},
         {"type": "rect", "x": 265.0, "y": 1800, "w": 500.0, "h": 500.0, "color": "none"}  # スタート地点
     ]
@@ -50,10 +50,10 @@ with open("field_map.json", "w", encoding="utf-8") as f:
 print("Saved field_map.json")
 
 # ---------- 可視化 ----------
-fig, ax = plt.subplots(figsize=(10, 10))
+fig, ax = plt.subplots(figsize=(12, 12))
 
 # 外枠フィールドを描画
-polygon = Polygon(field_vertices, closed=True, fill=False, edgecolor="black", linewidth=3)
+polygon = Polygon(field_vertices, closed=True, fill=False, edgecolor="black", linewidth=2)
 ax.add_patch(polygon)
 
 # 中央ブロック
@@ -72,41 +72,6 @@ for g in elements["goal_boxes"]:
         edgecolor='black', linewidth=2
     ))
 
-#ガイドライン
-from matplotlib.patches import Arc
-import matplotlib.lines as mlines
-# 左縦ライン（Y長さ,ｘ長さ）
-ax.add_line(mlines.Line2D([415, 415], [400, 1800], color="black", linewidth=3))
-# 右縦ライン（Y長さ,ｘ長さ）
-ax.add_line(mlines.Line2D([1590, 1590], [400, 1800], color="black", linewidth=3))
-#上横ライン（Y=500、X=415～865）
-ax.add_line(mlines.Line2D([565, 1440], [250, 250], color="black", linewidth=3))
-
-# 上横ライン（Y=500、X=1165～1915）
-#ax.add_line(mlines.Line2D([1165, 1915], [500, 500], color="black", linewidth=3))
-
-# 左上のR150カーブ
-arc1 = Arc((565, 400), 300, 300, theta1=180, theta2=270,
-           color="black", linewidth=3)
-ax.add_patch(arc1)
-
-# 右上のR150カーブ
-arc2 = Arc((1440, 400), 300, 300, theta1=270, theta2=360,
-           color="black", linewidth=3)
-ax.add_patch(arc2)
-
-# --- ゴール横のガイドライン ---
-# 左下ゴール横
-#ax.add_line(mlines.Line2D([265, 415], [800, 800], color="black", linewidth=3))  # ゴール横150mm
-#ax.add_line(mlines.Line2D([415, 485], [800, 800], color="black", linewidth=3))  # 内側70mm
-# 左中央ゴール横
-#ax.add_line(mlines.Line2D([265, 415], [1400, 1400], color="black", linewidth=3))  # ゴール横150mm
-#ax.add_line(mlines.Line2D([415, 485], [1400, 1400], color="black", linewidth=3))  # 内側70mm
-# 左上ゴール横
-#ax.add_line(mlines.Line2D([265, 415], [2000, 2000], color="black", linewidth=3))  # ゴール横150mm
-#ax.add_line(mlines.Line2D([415, 485], [2000, 2000], color="black", linewidth=3))  # 内側70mm
-
-
 # 軸範囲
 ax.set_xlim(-100, FIELD_W + 100)
 ax.set_ylim(-100, FIELD_H + 100)
@@ -122,12 +87,11 @@ ax.xaxis.set_label_position('top')
 ax.xaxis.tick_top()
 
 # 目盛り
-ax.set_xticks([0, 265, 600, 900, 1200, 1500, 1800, 2065])
-ax.set_yticks([0, 500, 1000, 1500, 1800, 2300])
+ax.set_xticks([0, 265, 565, 865, 1145, 1605, 2065])
+ax.set_yticks([0, 250, 900, 1550, 1800, 2300])
 
 # 必要なら上下反転
 plt.gca().invert_yaxis()
 
 ax.set_title("Field Map")
 plt.show()
-
