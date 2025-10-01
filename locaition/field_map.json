@@ -37,7 +37,7 @@
       "y": 200.0,
       "w": 265.0,
       "h": 300.0,
-      "color": "red"
+      "color": "blue"
     },
     {
       "type": "rect",
@@ -45,7 +45,7 @@
       "y": 800.0,
       "w": 265.0,
       "h": 300.0,
-      "color": "blue"
+      "color": "yellow"
     },
     {
       "type": "rect",
@@ -53,7 +53,7 @@
       "y": 1400.0,
       "w": 265.0,
       "h": 300.0,
-      "color": "yellow"
+      "color": "red"
     },
     {
       "type": "rect",
