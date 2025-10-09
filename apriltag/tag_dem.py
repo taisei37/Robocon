@@ -2,7 +2,7 @@ import cv2
 from pyapriltags import Detector
 
 # カメラ起動
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(4)
 
 # Apriltag ディテクタ作成
 detector = Detector(families='tag36h11')  # familes でタグタイプ指定可能
