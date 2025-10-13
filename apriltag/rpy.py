@@ -3,7 +3,7 @@ import numpy as np
 from pyapriltags import Detector
 
 # ---------- カメラ設定 ----------
-DEVICE = 4  # 接続されているカメラ番号
+DEVICE = 0  # 接続されているカメラ番号
 cap = cv2.VideoCapture(DEVICE)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
