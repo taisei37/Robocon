@@ -76,6 +76,11 @@ if len(objpoints) >= 5:
     print("\n並進ベクトル（Translation Vector）:")
     print(tvecs[0].ravel())
 
+    # === 結果保存 ===
+    np.save("camera_matrix.npy", camera_matrix)
+    np.save("dist_coeffs.npy", dist_coeffs)
+    print("\n💾 保存しました: camera_matrix.npy, dist_coeffs.npy")
+
     # 歪み補正表示
     h, w = frame.shape[:2]
     new_camera_matrix, roi = cv2.getOptimalNewCameraMatrix(
@@ -91,4 +96,3 @@ if len(objpoints) >= 5:
     plt.show()
 else:
     print("⚠ キャリブレーションには少なくとも5枚のキャプチャが必要です。")
-
